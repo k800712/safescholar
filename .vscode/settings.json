@@ -1,0 +1,3 @@
+{
+  "python.analysis.extraPaths": ["./bus_app", "./bus_app", "./bus_app"]
+}

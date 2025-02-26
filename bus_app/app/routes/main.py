@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request
 from flask_login import login_required, current_user
 from app import db
-from app.models.user import FavoriteRoute
+from app.models import FavoriteRoute
 
 bp = Blueprint('main', __name__)
 
