@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Favorite Routes</h2>
+<ul id="favorites-list">
+{% for favorite in favorites %}
+    <li data-route-id="{{ favorite.route_id }}">
+        {{ favorite.route_id }}
+        <button onclick="removeFavorite('{{ favorite.route_id }}')">Remove</button>
+    </li>
+{% endfor %}
+</ul>
+
+<script>
+function removeFavorite(routeId) {
+    fetch('/api/favorites', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ route_id: routeId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === 'Favorite removed successfully') {
+            const element = document.querySelector(`li[data-route-id="${routeId}"]`);
+            if (element) element.remove();
+        } else {
+            alert(data.error || 'An error occurred');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function addFavorite(routeId) {
+    fetch('/api/favorites', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ route_id: routeId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === 'Favorite added successfully') {
+            const list = document.getElementById('favorites-list');
+            const li = document.createElement('li');
+            li.setAttribute('data-route-id', routeId);
+            li.innerHTML = `${routeId} <button onclick="removeFavorite('${routeId}')">Remove</button>`;
+            list.appendChild(li);
+        } else {
+            alert(data.error || 'An error occurred');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+{% endblock %}

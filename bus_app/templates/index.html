@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>버스 정보 검색</h1>
+<div class="search-container">
+    <input type="text" id="search-input" placeholder="버스 정류장 또는 노선 검색">
+    <ul id="suggestions"></ul>
+    <button onclick="searchBusStop()">정류장 검색</button>
+    <button onclick="searchBusRoute()">노선 검색</button>
+</div>
+<div id="search-results"></div>
+
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}
